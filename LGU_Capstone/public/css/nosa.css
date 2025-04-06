@@ -1,0 +1,171 @@
+.dropdown-menu {
+    z-index: 1050 !important;  /* Ensure dropdown appears on top */
+}
+
+.container-fluid {
+    position: relative; /* Prevents dropdown from being cut off */
+    overflow: visible;  /* Ensures dropdown is visible */
+}
+.table-responsive > .table > thead > tr > th {
+    color: black;
+    font-weight: 1000px;
+    text-transform: uppercase;
+    letter-spacing: -0.5px;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    text-align: center;
+    font-size: 0.9rem;
+    line-height: 1.4;
+    font-size: 9px;
+}
+.card-body {
+    padding: 1rem;
+}
+
+.table-responsive > .table > tbody > tr > td {
+    vertical-align: middle;
+    text-overflow: clip;
+    overflow-wrap: break-word;
+    max-width: none;
+    width: auto;
+    padding: 4px;
+    transition: 0.3s;
+    overflow: visible;
+    white-space: normal;
+    text-align: center;
+}
+
+div.modal-dialog.modal-lg
+{
+    max-width: 78%;
+}
+
+.row {
+    --bs-gutter-x: 1.5rem;
+    --bs-gutter-y: 14px !important; /* Force override */
+}
+
+div.modal-content{
+    top: 20px !important; /* Force override */
+    bottom: 20px !important; /* Force override */
+
+}
+
+th{
+    font-weight: 1000px !important;
+}
+
+/* scrolling */
+
+.table-responsive {
+    max-height: 400px; /* Set a fixed height for the scrollable area */
+    overflow-y: auto;  /* Enable vertical scrolling */
+    overflow-x: auto;  /* Enable horizontal scrolling if needed */
+    border-radius: 8px; /* Optional for smooth edges */
+}
+
+/* Fix table headers when scrolling */
+.table thead th {
+    position: sticky;
+    top: 0;
+    background: white; /* Keeps the header visible */
+    z-index: 10;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Prevent table data from wrapping */
+.table td, .table th {
+    white-space: nowrap; 
+}
+
+.container-fluid.py-4 {
+    margin-top: -44px;  /* Moves the entire section upwards */
+}
+
+.d-flex.justify-content-left.gap-2.mb-4 {
+    margin-bottom: 0; /* Reduces extra spacing below the filter section */
+}
+
+select#statusFilter.form-select{
+    width: 38% !important;
+}
+select#officeFilter.form-select{
+    width: 38% !important;
+}
+
+button#vacantButton.btn.btn-secondary{
+    left: 10px;
+    position: relative;
+}
+ul.pagination{
+    padding-left: 17px;
+}
+
+/* entries */
+/* Custom CSS for aligning the "Show entries" text to the left */
+.dataTables_length {
+    text-align: left;
+    width: 157px;
+    margin-left: 10px;
+}
+
+.dataTables_length label {
+    display: flex;
+    justify-content: flex-start;  /* Align the label to the left */
+    align-items: center;
+}
+
+/* Make the footer of the DataTable a flex container */
+.dataTables_footer {
+    display: flex;
+    align-items: center; /* Align vertically center */
+    justify-content: flex-start; /* Align everything to the left */
+    width: 100%;
+    padding: 10px 0;
+}
+
+/* Align the pagination controls (Previous, 1, Next) to the left */
+.dataTables_paginate {
+    text-align: left;
+    margin-right: 5px;  /* Optional: Add space after the pagination buttons */
+}
+
+/* Style the separator (pipe symbol) */
+.separator {
+    margin: 0 10px;
+}
+
+/* Align the "Showing X to Y of Z entries" text to the right */
+.dataTables_info {
+    text-align: right;
+    flex-grow: 1;  /* Take remaining space on the right */
+}
+
+/* Style the pagination buttons */
+.dataTables_paginate button {
+    margin-left: 5px;  /* Add space between the buttons */
+}
+
+select.form-select.form-select-sm{
+    left: 1px;
+    position: relative;
+}
+
+/*  */
+nav.navbar.navbar-expand-lg.navbar-dark{
+    top: -24px;
+}
+/*  */
+body.modal-open {
+    overflow: hidden;
+    padding-right: 0px;  /* This removes the margin on the right side */
+}
+
+h6.col-6.text-center{
+    text-align: left !important;
+}
+
+div.d-flex.d-flex.justify-content-end.mt-3{
+    margin-top: -2rem !important;
+}

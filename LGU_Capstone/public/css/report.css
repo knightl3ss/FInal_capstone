@@ -1,0 +1,15 @@
+
+
+/*  */
+a.btn.btn-secondary.mt-3{
+    margin-top: 0rem !important;
+}
+
+nav.navbar.navbar-expand-lg.navbar-dark{
+    top: -24px !important;
+}
+
+div.container-fluid{
+    top: -22px;
+    position: relative;
+}

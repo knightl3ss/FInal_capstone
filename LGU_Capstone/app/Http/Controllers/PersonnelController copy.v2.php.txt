@@ -1,0 +1,84 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use App\Models\Personnel;
+
+class PersonnelController extends Controller
+{
+
+    public function showIndex()
+    {
+        $personnels = Personnel::all();  // Fetch all personnel records
+        return view('pages.Plantilla.index', compact('personnels'));
+    }
+    
+    public function store(Request $request)
+    {
+        $validatedData = $request->validate([
+            'office' => 'required',
+            'itemNo' => 'required',
+            'position' => 'required',
+            'salaryGrade' => 'required',
+            'authorizedSalary' => 'required',
+            'actualSalary' => 'required',
+            'step' => 'required',
+            'code' => 'required',
+            'type' => 'required',
+            'level' => 'required',
+            'lastName' => 'required',
+            'firstName' => 'required',
+            'middleName' => 'nullable',
+            'dob' => 'required|date',
+            'originalAppointment' => 'required|date',
+            'lastPromotion' => 'nullable|date', // Ensure it's nullable
+            'status' => 'required',
+        ]);
+
+        // Set lastPromotion to NULL if empty
+        $validatedData['lastPromotion'] = $request->input('lastPromotion') ?: null;
+
+        Personnel::create($validatedData);
+
+        // Redirect to index after saving
+        return redirect()->route('Plantilla')->with('success', 'Personnel added successfully!');
+    }
+// filter office
+ // Add the filterPersonnel method here
+ public function filterPersonnel(Request $request)
+ {
+     $filters = $request->all();
+     $personnels = Personnel::query();
+ 
+     if ($filters['office']) {
+         $personnels->where('office', $filters['office']);
+     }
+ 
+     if ($filters['remarks']) {
+         $personnels->where('remarks', $filters['remarks']);
+     }
+ 
+     if ($filters['service']) {
+         // Filter by years in service, you can implement custom logic based on your needs
+         if ($filters['service'] === '1-5') {
+             $personnels->whereBetween('service', [1, 5]);
+         } elseif ($filters['service'] === '6-10') {
+             $personnels->whereBetween('service', [6, 10]);
+         } elseif ($filters['service'] === '11+') {
+             $personnels->where('service', '>=', 11);
+         }
+     }
+ 
+     if ($filters['status']) {
+         $personnels->where('status', $filters['status']);
+     }
+ 
+     $personnels = $personnels->get();
+ 
+     return response()->json([
+         'personnels' => $personnels
+     ]);
+ }
+}
+ 

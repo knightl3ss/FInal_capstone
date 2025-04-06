@@ -1,0 +1,128 @@
+document.addEventListener("DOMContentLoaded", function () {
+    const addPersonnelForm = document.getElementById("addPersonnelForm");
+    const tableBody = document.getElementById("employeeTable");
+    const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content;
+
+    if (!csrfToken) {
+        console.error("CSRF token not found!");
+        return;
+    }
+
+    // 🔹 1. Load Existing Personnel from Database
+    async function loadPersonnel() {
+        try {
+            const response = await fetch("/personnels");
+            const data = await response.json();
+            tableBody.innerHTML = ""; // Clear table
+
+            if (data.length === 0) {
+                tableBody.innerHTML = `<tr><td colspan="16" class="text-center">No personnel found.</td></tr>`;
+                return;
+            }
+
+            data.forEach(personnel => {
+                const row = `
+                    <tr>
+                        <td>${personnel.itemNo}</td>
+                        <td>${personnel.position}</td>
+                        <td>${personnel.salaryGrade}</td>
+                        <td>${personnel.authorizedSalary}</td>
+                        <td>${personnel.actualSalary}</td>
+                        <td>${personnel.step}</td>
+                        <td>${personnel.code}</td>
+                        <td>${personnel.type}</td>
+                        <td>${personnel.level}</td>
+                        <td>${personnel.lastName}</td>
+                        <td>${personnel.firstName}</td>
+                        <td>${personnel.middleName || ''}</td>
+                        <td>${personnel.dob}</td>
+                        <td>${personnel.originalAppointment}</td>
+                        <td>${personnel.lastPromotion || 'N/A'}</td>
+                        <td>${personnel.status}</td>
+                    </tr>
+                `;
+                tableBody.insertAdjacentHTML("beforeend", row);
+            });
+        } catch (error) {
+            console.error("Error fetching personnel:", error);
+        }
+    }
+
+    // Load personnel on page load
+    loadPersonnel();
+
+    // 🔹 2. Add Personnel and Save to Database
+    addPersonnelForm.addEventListener("submit", async function (event) {
+        event.preventDefault();
+
+        const formData = {
+            itemNo: document.getElementById("itemNo").value,
+            position: document.getElementById("position").value,
+            salaryGrade: document.getElementById("salaryGrade").value,
+            authorizedSalary: document.getElementById("authorizedSalary").value,
+            actualSalary: document.getElementById("actualSalary").value,
+            step: document.getElementById("step").value,
+            code: document.getElementById("code").value,
+            type: "M", // Always "M"
+            level: document.getElementById("level").value,
+            lastName: document.getElementById("lastName").value,
+            firstName: document.getElementById("firstName").value,
+            middleName: document.getElementById("middleName").value || "N/A",
+            dob: document.getElementById("dob").value,
+            originalAppointment: document.getElementById("originalAppointment").value,
+            lastPromotion: document.getElementById("lastPromotion").value || null,
+            status: document.getElementById("status").value,
+        };
+
+        try {
+            const response = await fetch("/add-personnel", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRF-TOKEN": csrfToken
+                },
+                body: JSON.stringify(formData)
+            });
+
+            const data = await response.json();
+            console.log("Success:", data);
+
+            if (data.success) {
+                // Refresh personnel list
+                loadPersonnel();
+
+                // Close modal
+                $("#addPersonnelModal").modal("hide");
+
+                // Reset form
+                addPersonnelForm.reset();
+
+                // 🔹 Redirect to index page after 500ms
+                setTimeout(() => {
+                    window.location.href = PlantillaRoute;
+
+                }, 500);
+            } else {
+                alert("Error: Unable to save data.");
+            }
+        } catch (error) {
+            console.error("Error:", error);
+            alert("An error occurred while saving.");
+        }
+    });
+
+    // 🔹 3. Reset Form on Modal Close
+    $("#addPersonnelModal").on("hidden.bs.modal", function () {
+        addPersonnelForm.reset();
+    });
+});
+
+// remove aria
+modal.addEventListener('shown.bs.modal', function () {
+    const firstInput = modal.querySelector('input, select, textarea, button');
+    if (firstInput) firstInput.focus();
+});
+
+$('#remarksModal').on('shown.bs.modal', function () {
+    $('#retirableFilter').focus(); // Only set focus after modal is open
+});
